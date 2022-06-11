@@ -5,15 +5,25 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.kangethe.chekicars.navigation.NavRoutes
+import com.kangethe.chekicars.screens.*
 import com.kangethe.chekicars.ui.theme.ChekiCarsTheme
 import com.kangethe.myautocheckapi.models.MakesListResponse
 import com.kangethe.myautocheckapi.models.MyAutoCheckResponse
@@ -33,11 +43,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
-                    val apiState by getPopularMakes(myAutoCheckAPI = myAutoCheckAPI)
-                    if(apiState.isOk){
-                        Log.e("isOk",apiState.data.toString())
-                    }
+                  MainScreen(myAutoCheckAPI)
                 }
             }
         }
@@ -45,27 +51,83 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun MainScreen(myAutoCheckAPI: MyAutoCheckAPI) {
+
+    val navController = rememberNavController()
+
+    Scaffold(
+        topBar = { TopAppBar(
+            title = {Text("Explore")},
+           backgroundColor = MaterialTheme.colors.background,
+            navigationIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_baseline_grid_view_24),
+                    contentDescription = null,
+                    modifier = Modifier.padding(16.dp)
+                )
+            },
+            elevation = 0.dp,
+            actions = {
+                Icon(imageVector = Icons.Filled.ShoppingCart, contentDescription = null, modifier = Modifier.padding(16.dp))
+            }
+        )},
+        content = { NavigationHost(navController = navController, myAutoCheckAPI) },
+        bottomBar = { BottomNavigationBar(navController = navController)}
+    )
 }
 
-@Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
-    ChekiCarsTheme {
-        Greeting("Android")
-    }
-}
+fun NavigationHost(navController: NavHostController, myAutoCheckAPI: MyAutoCheckAPI) {
 
-@Composable
-fun getPopularMakes(
-    myAutoCheckAPI: MyAutoCheckAPI?
-): State<MyAutoCheckResponse<MakesListResponse>> {
-    return produceState(initialValue = MyAutoCheckResponse<MakesListResponse>()) {
-        val response =
-            myAutoCheckAPI?.getPopularMakes()
-        if (response != null) {
-            value = response
+    NavHost(
+        navController = navController,
+        startDestination = NavRoutes.Home.route,
+    ) {
+        composable(NavRoutes.Home.route) {
+            Home(myAutoCheckAPI)
+        }
+
+        composable(NavRoutes.Likes.route) {
+            Likes()
+        }
+
+        composable(NavRoutes.Notifications.route) {
+            NotificationScreen()
+        }
+
+        composable(NavRoutes.Messages.route) {
+            MessagesScreen()
         }
     }
 }
+
+@Composable
+fun BottomNavigationBar(navController: NavHostController) {
+
+    BottomNavigation {
+        val backStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = backStackEntry?.destination?.route
+
+        NavBarItems.BarItems.forEach { navItem ->
+
+            BottomNavigationItem(
+                selected = currentRoute == navItem.route,
+                onClick = {
+                    navController.navigate(navItem.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+
+                icon = {
+                    Icon(imageVector = navItem.image,
+                        contentDescription = navItem.title)
+                }
+            )
+        }
+    }
+}
+
