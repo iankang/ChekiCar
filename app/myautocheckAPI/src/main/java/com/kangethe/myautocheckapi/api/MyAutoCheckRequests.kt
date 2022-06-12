@@ -1,5 +1,6 @@
 package com.kangethe.myautocheckapi.api
 
+import com.kangethe.myautocheckapi.models.CarListResponse
 import com.kangethe.myautocheckapi.models.MakesListResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -11,4 +12,11 @@ interface MyAutoCheckRequests {
     suspend fun getPopularMakes(
         @Query("popular") popular: Boolean
     ): Response<MakesListResponse>
+
+
+    @GET("car/search")
+    suspend fun getCarList(
+        @Query("pageSize") pageSize: Int? = 40,
+        @Query("page_number") page_number: Int? = 0
+    ): Response<CarListResponse>
 }

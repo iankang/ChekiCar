@@ -8,14 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 private val DarkColorPalette = darkColors(
-    primary = Grey700,
-    primaryVariant = Grey500,
-    secondary = Mustard500,
-    onSecondary = Black500,
+    primary = Grey500,
+    primaryVariant = Grey700,
+    secondary = Black500,
+    onSecondary = Mustard500,
     background = Grey200,
-    onBackground = Black500,
-    surface = Grey500,
-
+    onBackground = Black700,
+    surface = Grey200,
+    onSurface = Black700,
+    onPrimary = Black500,
 
 )
 
@@ -44,7 +45,7 @@ fun ChekiCarsTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composa
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
-        LightColorPalette
+        DarkColorPalette
     }
 
     MaterialTheme(

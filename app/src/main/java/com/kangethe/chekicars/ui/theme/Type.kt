@@ -14,6 +14,8 @@ val Gilroy = FontFamily(
 )
 // Set of Material typography styles to start with
 val Typography = Typography(
+    defaultFontFamily = Gilroy,
+
     body1 = TextStyle(
         fontFamily = Gilroy,
         fontWeight = FontWeight.Normal,

@@ -1,7 +1,6 @@
 package com.kangethe.chekicars
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,9 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -25,8 +22,6 @@ import androidx.navigation.compose.rememberNavController
 import com.kangethe.chekicars.navigation.NavRoutes
 import com.kangethe.chekicars.screens.*
 import com.kangethe.chekicars.ui.theme.ChekiCarsTheme
-import com.kangethe.myautocheckapi.models.MakesListResponse
-import com.kangethe.myautocheckapi.models.MyAutoCheckResponse
 import com.kangethe.myautocheckapi.repository.MyAutoCheckAPI
 import org.koin.android.ext.android.inject
 
@@ -43,7 +38,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                  MainScreen(myAutoCheckAPI)
+                    MainScreen(myAutoCheckAPI)
                 }
             }
         }
@@ -56,23 +51,29 @@ fun MainScreen(myAutoCheckAPI: MyAutoCheckAPI) {
     val navController = rememberNavController()
 
     Scaffold(
-        topBar = { TopAppBar(
-            title = {Text("Explore")},
-           backgroundColor = MaterialTheme.colors.background,
-            navigationIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_baseline_grid_view_24),
-                    contentDescription = null,
-                    modifier = Modifier.padding(16.dp)
-                )
-            },
-            elevation = 0.dp,
-            actions = {
-                Icon(imageVector = Icons.Filled.ShoppingCart, contentDescription = null, modifier = Modifier.padding(16.dp))
-            }
-        )},
+        topBar = {
+            TopAppBar(
+                title = { Text("Explore") },
+                backgroundColor = MaterialTheme.colors.background,
+                navigationIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_grid_view_24),
+                        contentDescription = null,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                },
+                elevation = 0.dp,
+                actions = {
+                    Icon(
+                        imageVector = Icons.Filled.ShoppingCart,
+                        contentDescription = null,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+            )
+        },
         content = { NavigationHost(navController = navController, myAutoCheckAPI) },
-        bottomBar = { BottomNavigationBar(navController = navController)}
+        bottomBar = { BottomNavigationBar(navController = navController) }
     )
 }
 
@@ -123,8 +124,10 @@ fun BottomNavigationBar(navController: NavHostController) {
                 },
 
                 icon = {
-                    Icon(imageVector = navItem.image,
-                        contentDescription = navItem.title)
+                    Icon(
+                        imageVector = navItem.image,
+                        contentDescription = navItem.title
+                    )
                 }
             )
         }
