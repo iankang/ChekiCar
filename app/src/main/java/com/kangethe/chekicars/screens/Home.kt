@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
@@ -34,7 +35,7 @@ import kotlin.math.roundToInt
 
 
 @Composable
-fun Home(myAutoCheckAPI: MyAutoCheckAPI) {
+fun Home(myAutoCheckAPI: MyAutoCheckAPI, navController: NavHostController) {
     val textState = remember { mutableStateOf(TextFieldValue("")) }
     Column(
         modifier = Modifier.fillMaxSize()
@@ -68,7 +69,9 @@ fun Home(myAutoCheckAPI: MyAutoCheckAPI) {
                         mileage = carItem.mileage.toString(),
                         mileageUnits = carItem.mileageUnit,
                         location = carItem.city,
-                        carState = carItem.sellingCondition
+                        carState = carItem.sellingCondition,
+                        carId = carItem.id!!,
+                        navController = navController
                     )
                 })
             }

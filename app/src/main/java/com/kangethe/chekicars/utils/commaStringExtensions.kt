@@ -7,7 +7,7 @@ object commaStringExtensions {
         get() = NumberFormat.getInstance().format(this)
 
     val String.commaString: String
-        get() = NumberFormat.getNumberInstance().format(this.toDouble())
+        get() = NumberFormat.getNumberInstance().format(this.toInt())
 
     val Long.commaString: String
         get() = NumberFormat.getInstance().format(this)

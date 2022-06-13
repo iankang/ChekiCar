@@ -2,8 +2,9 @@ package com.kangethe.chekicars.screens
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -24,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kangethe.chekicars.R
@@ -41,9 +43,11 @@ fun CarCard(
     carCostBefore: String? = "6,341,232",
     gradeScore: String? = "5.0",
     mileage: String? = "444,453",
-    mileageUnits: String? ="km",
+    mileageUnits: String? = "km",
     location: String? = "Kisumu",
-    carState: String? = "Local"
+    carState: String? = "Local",
+    carId: String,
+    navController: NavController? = null
 ) {
     Card(
         modifier = Modifier.padding(
@@ -54,7 +58,17 @@ fun CarCard(
     ) {
         Column {
             CarImageBox(imageUrl, yearOfManufacture, carName)
-            CarTextCard(carCostNow, carCostBefore, gradeScore, mileage, mileageUnits, location, carState)
+            CarTextCard(
+                carCostNow,
+                carCostBefore,
+                gradeScore,
+                mileage,
+                mileageUnits,
+                location,
+                carState,
+                carId,
+                navController
+            )
         }
     }
 }
@@ -87,7 +101,7 @@ fun CarImageBox(
                 contentDescription = "like Button",
                 tint = Color.Red,
                 modifier = Modifier
-                    .padding(24.dp)
+                    .padding(16.dp)
                     .size(24.dp)
                     .align(Alignment.TopEnd)
             )
@@ -111,6 +125,16 @@ fun CarImageBox(
                     fontWeight = FontWeight.Bold
                 )
             }
+
+            Icon(
+                painter = painterResource(id = R.drawable.gallery),
+                contentDescription = "gallery",
+                tint = Color.Red,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .clickable {
+                        Log.e("clicking", "clicked")
+                    })
         }
     }
 }
@@ -129,12 +153,22 @@ fun CarTextCard(
     carCostBefore: String? = "6,341,232",
     gradeScore: String? = "5.0",
     mileage: String? = "444,453",
-    mileageUnits:String? = "km",
+    mileageUnits: String? = "km",
     location: String? = "Kisumu",
-    carState: String? = "Local"
+    carState: String? = "Local",
+    carId: String,
+    navController: NavController? = null
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(
+                enabled = true,
+                onClick = {
+                    Log.e("clicked", "touched id: $carId")
+                    navController?.navigate("home/$carId")
+                }
+            ),
         backgroundColor = MaterialTheme.colors.surface
     ) {
         Column(
@@ -220,7 +254,7 @@ fun MetadataText(
 @Preview
 fun CarTextCardPreview() {
     ChekiCarsTheme {
-        CarTextCard()
+        CarTextCard(carId = "carId")
     }
 }
 
@@ -229,6 +263,6 @@ fun CarTextCardPreview() {
 @Preview(name = "night", uiMode = UI_MODE_NIGHT_NO)
 fun CarCardPreview() {
     ChekiCarsTheme {
-        CarCard()
+        CarCard(carId = "carId")
     }
 }

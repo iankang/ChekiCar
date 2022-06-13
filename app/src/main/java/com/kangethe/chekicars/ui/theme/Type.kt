@@ -5,6 +5,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.kangethe.chekicars.R
 
@@ -20,6 +21,18 @@ val Typography = Typography(
         fontFamily = Gilroy,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
+    ),
+    h4 = TextStyle(
+        fontFamily = Gilroy,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 22.sp,
+        textAlign = TextAlign.Center
+    ),
+    h5 = TextStyle(
+        fontFamily = Gilroy,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 20.sp,
+        textAlign = TextAlign.Center
     )
 
 

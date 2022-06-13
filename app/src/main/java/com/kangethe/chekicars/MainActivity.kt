@@ -15,10 +15,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.kangethe.chekicars.navigation.NavRoutes
 import com.kangethe.chekicars.screens.*
 import com.kangethe.chekicars.ui.theme.ChekiCarsTheme
@@ -52,25 +54,25 @@ fun MainScreen(myAutoCheckAPI: MyAutoCheckAPI) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Explore") },
-                backgroundColor = MaterialTheme.colors.background,
-                navigationIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_baseline_grid_view_24),
-                        contentDescription = null,
-                        modifier = Modifier.padding(16.dp)
-                    )
-                },
-                elevation = 0.dp,
-                actions = {
-                    Icon(
-                        imageVector = Icons.Filled.ShoppingCart,
-                        contentDescription = null,
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
-            )
+//            TopAppBar(
+//                title = { Text("Explore") },
+//                backgroundColor = MaterialTheme.colors.background,
+//                navigationIcon = {
+//                    Icon(
+//                        painter = painterResource(id = R.drawable.ic_baseline_grid_view_24),
+//                        contentDescription = null,
+//                        modifier = Modifier.padding(16.dp)
+//                    )
+//                },
+//                elevation = 0.dp,
+//                actions = {
+//                    Icon(
+//                        imageVector = Icons.Filled.ShoppingCart,
+//                        contentDescription = null,
+//                        modifier = Modifier.padding(16.dp)
+//                    )
+//                }
+//            )
         },
         content = { NavigationHost(navController = navController, myAutoCheckAPI) },
         bottomBar = { BottomNavigationBar(navController = navController) }
@@ -85,7 +87,14 @@ fun NavigationHost(navController: NavHostController, myAutoCheckAPI: MyAutoCheck
         startDestination = NavRoutes.Home.route,
     ) {
         composable(NavRoutes.Home.route) {
-            Home(myAutoCheckAPI)
+            Home(myAutoCheckAPI, navController)
+        }
+
+        composable(
+            NavRoutes.HomeDetail.route,
+            arguments = listOf(navArgument("carId"){ type = NavType.StringType})
+        ){ backStackEntry ->
+            CarDetail( myAutoCheckAPI, backStackEntry.arguments?.getString("carId"),navController)
         }
 
         composable(NavRoutes.Likes.route) {
