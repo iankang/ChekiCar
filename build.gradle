@@ -5,6 +5,8 @@ buildscript {
         gson_version = "2.9.0"
         ok_http_version = "4.9.3"
         nav_version = "2.4.2"
+        coil_version = "2.1.0"
+        exoplayerVersion="2.16.1"
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

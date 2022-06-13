@@ -57,7 +57,9 @@ fun Home(myAutoCheckAPI: MyAutoCheckAPI, navController: NavHostController) {
         val carListState by getCars(myAutoCheckAPI = myAutoCheckAPI, pageSize = 50, page = 2 )
         if(carListState.isOk){
             Log.e("carList",carListState.data.toString())
-            LazyColumn{
+            LazyColumn(
+                contentPadding = PaddingValues(bottom = 70.dp)
+            ){
                 items(items = carListState.data?.result!!, itemContent = { carItem ->
                     CarCard(
                         imageUrl = carItem.imageUrl,

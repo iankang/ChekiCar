@@ -57,7 +57,7 @@ fun CarCard(
         elevation = 8.dp
     ) {
         Column {
-            CarImageBox(imageUrl, yearOfManufacture, carName)
+            CarImageBox(imageUrl, yearOfManufacture, carName, navController, carId)
             CarTextCard(
                 carCostNow,
                 carCostBefore,
@@ -77,7 +77,9 @@ fun CarCard(
 fun CarImageBox(
     imageUrl: String? = null,
     yearOfManufacture: String? = null,
-    carName: String? = null
+    carName: String? = null,
+    navController: NavController? = null,
+    carId: String? = null
 ) {
     Card(
         modifier = Modifier
@@ -133,7 +135,7 @@ fun CarImageBox(
                 modifier = Modifier
                     .padding(16.dp)
                     .clickable {
-                        Log.e("clicking", "clicked")
+                        navController?.navigate("home/gallery/$carId")
                     })
         }
     }

@@ -1,6 +1,7 @@
 package com.kangethe.chekicars.screens
 
 import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -29,7 +30,6 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kangethe.chekicars.R
-import com.kangethe.chekicars.ui.theme.ChekiCarsTheme
 import com.kangethe.chekicars.utils.commaStringExtensions.commaString
 import com.kangethe.myautocheckapi.models.CarDetailResponse
 import com.kangethe.myautocheckapi.models.MyAutoCheckResponse
@@ -76,13 +76,14 @@ fun CarDetail(
                 carDets?.marketplacePrice,
                 carDets?.marketplaceOldPrice,
                 carDets?.loanValue,
-                carDets?.installment
+                carDets?.installment,
+                navController
             )
     }
 }
 
 @Composable
-fun TopCarDetail() {
+fun TopCarDetail(navController: NavHostController? = null) {
     Row(
         modifier = Modifier.padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -90,7 +91,10 @@ fun TopCarDetail() {
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_baseline_arrow_back_ios_24),
-            contentDescription = null
+            contentDescription = null,
+            modifier = Modifier.clickable {
+                navController?.navigate("home")
+            }
         )
     }
 }
@@ -112,41 +116,44 @@ fun getCarDetails(
 
 @Composable
 @Preview(name = "carDetails", showBackground = true)
-fun CarDetails(imageUrl: String? = null,
-               carName:String? = "Pontiac Sunbird - 2019",
-               mileage: Int? = 643783,
-               mileageUnits: String? = "km",
-               location: String? = "Kisumu",
-               carState: String? = "Local",
-               gradeScore: String? = "4",
-               vehicleId:String? = "fR469BF_20",
-               year:String? = "2019",
-               transmission:String? = "automatic",
-               engineType:String? = "4-cylinder(I4)",
-               fuelType:String? = "hybrid",
-               vin:String? = "RMAN*************",
-               state:String? = "Mombasa",
-               country:String? = "KE",
-               ownerType:String? = "Individual",
-               interiorColor:String? = "Red",
-               exteriorColor:String? = "White",
-               warranty:Boolean? = false,
-               financed:Boolean? = false,
-               insured:Boolean? = false,
-               sold:Boolean? = false,
-               marketPriceCurrent:Int? = null,
-               marketPriceOld:Int? = null,
-               loanValue:Double? = null,
-               installment:Int? = null,
+fun CarDetails(
+    imageUrl: String? = null,
+    carName: String? = "Pontiac Sunbird - 2019",
+    mileage: Int? = 643783,
+    mileageUnits: String? = "km",
+    location: String? = "Kisumu",
+    carState: String? = "Local",
+    gradeScore: String? = "4",
+    vehicleId: String? = "fR469BF_20",
+    year: String? = "2019",
+    transmission: String? = "automatic",
+    engineType: String? = "4-cylinder(I4)",
+    fuelType: String? = "hybrid",
+    vin: String? = "RMAN*************",
+    state: String? = "Mombasa",
+    country: String? = "KE",
+    ownerType: String? = "Individual",
+    interiorColor: String? = "Red",
+    exteriorColor: String? = "White",
+    warranty: Boolean? = false,
+    financed: Boolean? = false,
+    insured: Boolean? = false,
+    sold: Boolean? = false,
+    marketPriceCurrent: Int? = null,
+    marketPriceOld: Int? = null,
+    loanValue: Double? = null,
+    installment: Number? = null,
+    navController: NavHostController? = null,
                ) {
 
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
             state = rememberLazyListState(),
+            contentPadding = PaddingValues(bottom = 70.dp)
 
         ) {
             item {
-                TopCarDetail()
+                TopCarDetail(navController)
             }
             item {
                 DetailCarImage(
@@ -331,11 +338,9 @@ fun CarDetailFinanceData(
     marketPriceCurrent:Int? = null,
     marketPriceOld:Int? = null,
     loanValue:Double? = null,
-    installment:Int? = null,
+    installment:Number? = null,
 ) {
-    Card(
-        modifier = Modifier.padding(bottom = 24.dp)
-    ) {
+    Card {
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {

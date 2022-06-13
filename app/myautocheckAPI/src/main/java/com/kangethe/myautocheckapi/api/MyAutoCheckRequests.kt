@@ -2,6 +2,7 @@ package com.kangethe.myautocheckapi.api
 
 import com.kangethe.myautocheckapi.models.CarDetailResponse
 import com.kangethe.myautocheckapi.models.CarListResponse
+import com.kangethe.myautocheckapi.models.CarMediaDetailResponse
 import com.kangethe.myautocheckapi.models.MakesListResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -27,4 +28,11 @@ interface MyAutoCheckRequests {
         @Query("pageSize") pageSize: Int? = 40,
         @Query("page_number") page_number: Int? = 0
     ):Response<CarDetailResponse>
+
+    @GET("car_media")
+    suspend fun getCarDetailMedia(
+        @Query("carId") carID:String,
+        @Query("pageSize") pageSize: Int? = 40,
+        @Query("page_number") page_number: Int? = 0
+    ):Response<CarMediaDetailResponse>
 }

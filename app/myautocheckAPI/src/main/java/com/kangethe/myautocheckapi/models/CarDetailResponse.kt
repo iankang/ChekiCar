@@ -47,7 +47,7 @@ data class CarDetailResponse(
     @SerializedName("inspectorDetails")
     var inspectorDetails: InspectorDetails? = null,
     @SerializedName("installment")
-    var installment: Int? = null,
+    var installment: Number? = null,
     @SerializedName("insured")
     var insured: Boolean? = null,
     @SerializedName("interiorColor")

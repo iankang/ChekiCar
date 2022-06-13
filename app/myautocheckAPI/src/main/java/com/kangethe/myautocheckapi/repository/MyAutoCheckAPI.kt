@@ -2,10 +2,7 @@ package com.kangethe.myautocheckapi.repository
 
 import com.kangethe.myautocheckapi.api.MyAutoCheckRequests
 import com.kangethe.myautocheckapi.api.myAutoCheckApiCall
-import com.kangethe.myautocheckapi.models.CarDetailResponse
-import com.kangethe.myautocheckapi.models.CarListResponse
-import com.kangethe.myautocheckapi.models.MakesListResponse
-import com.kangethe.myautocheckapi.models.MyAutoCheckResponse
+import com.kangethe.myautocheckapi.models.*
 import org.koin.java.KoinJavaComponent.inject
 
 class MyAutoCheckAPI {
@@ -31,6 +28,20 @@ class MyAutoCheckAPI {
     ): MyAutoCheckResponse<CarDetailResponse> {
         return myAutoCheckApiCall(apiCall = {
             myAutoCheckRequests.getCarDetails(
+                carId!!,
+                pageSize,
+                page
+            )
+        })
+    }
+
+    suspend fun getCarDetailsMedia(
+        carId: String?,
+        pageSize: Int?,
+        page: Int?
+    ): MyAutoCheckResponse<CarMediaDetailResponse> {
+        return myAutoCheckApiCall(apiCall = {
+            myAutoCheckRequests.getCarDetailMedia(
                 carId!!,
                 pageSize,
                 page

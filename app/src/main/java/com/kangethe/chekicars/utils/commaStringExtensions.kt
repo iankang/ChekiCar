@@ -14,4 +14,10 @@ object commaStringExtensions {
 
     val Double.commaString: String
         get() = NumberFormat.getInstance().format(this)
+
+    val Number.commaString: String
+        get() = NumberFormat.getInstance().format(this)
+
+    val Float.commaString: String
+        get() = NumberFormat.getInstance().format(this)
 }

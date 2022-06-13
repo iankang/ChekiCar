@@ -4,15 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -95,6 +90,20 @@ fun NavigationHost(navController: NavHostController, myAutoCheckAPI: MyAutoCheck
             arguments = listOf(navArgument("carId"){ type = NavType.StringType})
         ){ backStackEntry ->
             CarDetail( myAutoCheckAPI, backStackEntry.arguments?.getString("carId"),navController)
+        }
+
+        composable(
+            NavRoutes.HomeDetailGallery.route,
+            arguments = listOf(navArgument("carId"){ type = NavType.StringType})
+        ){backStackEntry ->
+            GalleryDetails( myAutoCheckAPI, backStackEntry.arguments?.getString("carId"),navController)
+        }
+
+        composable(
+            NavRoutes.GalleryVideo.route,
+            arguments = listOf(navArgument("videoUrl"){ type = NavType.StringType})
+        ){backStackEntry ->
+            PlayerVideo(backStackEntry.arguments?.getString("videoUrl"), navController)
         }
 
         composable(NavRoutes.Likes.route) {
